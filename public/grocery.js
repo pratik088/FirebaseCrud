@@ -10,7 +10,7 @@ import 'firebase/auth';
 $$("#tab2").on("tab:show", () => {
     //put in firebase ref here
     const sUser = firebase.auth().currentUser.uid;
-    firebase.database().ref("cruditems/" + sUser).on("value", (snapshot) =>{
+    firebase.database().ref("crudItems/" + sUser).on("value", (snapshot) =>{
         const oItems = snapshot.val();
         console.log("oItems:",Object.keys(oItems));
         const aKeys = Object.keys(oItems);
@@ -81,13 +81,13 @@ document.getElementById("gameList").addEventListener("click", (evt) =>{
         const sUser = firebase.auth().currentUser.uid;
         const today = new Date();
         const datePurchase = today.getDate() +"-"+ (today.getMonth() + 1) +"-"+today.getFullYear();
-        firebase.database().ref("cruditems/" + sUser + "/" + evt.target.id.replace("add_","")).update({datePurchased: datePurchase});
+        firebase.database().ref("crudItems/" + sUser + "/" + evt.target.id.replace("add_","")).update({datePurchased: datePurchase});
         document.getElementById(evt.target.id).disabled = true;
         document.getElementById(evt.target.id).style.visibility = "hidden";
     }
     else if(hasClass(evt.target,"remove")){
         const sUser = firebase.auth().currentUser.uid;
-        firebase.database().ref("cruditems/"+sUser+"/"+evt.target.id.replace("delete_","")).remove();
+        firebase.database().ref("crudItems/"+sUser+"/"+evt.target.id.replace("delete_","")).remove();
     }
 });
 $$(".my-sheet").on("submit", e => {
@@ -96,6 +96,6 @@ $$(".my-sheet").on("submit", e => {
     const oData = app.form.convertToData("#addItem");
     const sUser = firebase.auth().currentUser.uid;
     const sId = new Date().toISOString().replace(".", "_");
-    firebase.database().ref("cruditems/" + sUser + "/" + sId).set(oData);
+    firebase.database().ref("crudItems/" + sUser + "/" + sId).set(oData);
     app.sheet.close(".my-sheet", true);
 });
